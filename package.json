@@ -1,6 +1,11 @@
 {
   "name": "loading-fonts",
   "version": "1.0.0",
+  "scripts": {
+    "build": "cp -r demos dist && cp -r fonts dist && cp -r css dist",
+    "deploy": "cd dist && now -A ../now.json && now alias -A ../now.json",
+    "release": "npm run build && npm run deploy"
+  },
   "main": "index.js",
   "author": "fpapado <fotis@futurice.com>",
   "license": "MIT",
