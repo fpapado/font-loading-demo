@@ -7,7 +7,7 @@
     "build": "npm run clean && npm run build-styles && cp -r demos/* dist/",
     "deploy": "now ./dist -A ../now.json && now alias",
     "release": "npm run build && npm run deploy",
-    "dev": "serve -o dist/"
+    "dev": "npm run build && serve -o dist/"
   },
   "main": "index.js",
   "author": "fpapado <fotis@futurice.com>",
