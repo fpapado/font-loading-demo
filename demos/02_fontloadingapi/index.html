@@ -1,8 +1,34 @@
 <!doctype html>
-<html lang="en">
+<html class="fonts-loading" lang="en">
   <head>
     <title>Font Loading</title>
     <link href="./css/styles.css" rel="stylesheet">
+    <script>
+      'use strict';
+      (function() {
+        // Only act if the Font Loading API is supported
+        if ('fonts' in document) {
+          Promise
+            .all([
+              document.fonts.load('1em Lato'),
+              document.fonts.load('1em Noto Serif'),
+            ]);
+            .then(function() {
+              document.documentElement.classList.remove('fonts-loading');
+              document.documentElement.classList.add('fonts-active');
+              sessionStorage.fontsLoaded = true;
+            })
+            .catch(function(err) {
+              // Debatable whether you want this
+              console.error("Fonts could not be loaded ", err);
+              document.documentElement.classList.remove('fonts-loading');
+              document.documentElement.classList.add('fonts-inactive');
+            });
+        }
+      })();
+    </script>
+    <!-- Fallback to showing style if JS is off -->
+    <noscript></noscript>
   </head>
   <body class="measure-wide center notoserif f5 fw4 near-black bg-washed-yellow">
     <div class="pv5">
