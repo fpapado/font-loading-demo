@@ -15,14 +15,12 @@
             ])
             .then(function() {
               document.documentElement.classList.add('fonts-active');
-              document.documentElement.classList.remove('fonts-loading');
               sessionStorage.fontsLoaded = true;
             })
             .catch(function(err) {
               // Debatable whether you want this
               console.error("Fonts could not be loaded ", err);
               document.documentElement.classList.add('fonts-inactive');
-              document.documentElement.classList.remove('fonts-loading');
             });
         }
       })();

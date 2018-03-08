@@ -56,15 +56,6 @@
 }
 
 /* FONT CLASSES */
-.lato {
-  font-family: 'Lato', -apple-system, BlinkMacSystemFont, avenir next, avenir,
-    helvetica neue, helvetica, ubuntu, roboto, noto, segoe ui, arial, sans-serif;
-}
-
-.notoserif {
-  font-family: 'Noto Serif', georgia, times, serif;
-}
-
 /* Only display the fallback font stack while fonts are loading
  * This prevents the browser from blocking, since there is no font
  * for the node loading, as far as it can tell.
@@ -75,12 +66,12 @@
  *
  * You can simplify this process with your favourite CSS preprocessor
  * */
-.fonts-loading .lato {
+.lato {
   font-family: -apple-system, BlinkMacSystemFont, avenir next, avenir,
     helvetica neue, helvetica, ubuntu, roboto, noto, segoe ui, arial, sans-serif;
 }
 
-.fonts-loading .notoserif {
+.notoserif {
   font-family: georgia, times, serif;
 }
 
