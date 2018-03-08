@@ -1,0 +1,10 @@
+{
+  "name": "loading-fonts",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "fpapado <fotis@futurice.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "serve": "^6.5.2"
+  }
+}
