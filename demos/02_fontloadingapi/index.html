@@ -2,7 +2,7 @@
 <html class="fonts-loading" lang="en">
   <head>
     <title>Font Loading</title>
-    <link href="./css/styles.css" rel="stylesheet">
+    <link href="/css/02_styles.css" rel="stylesheet">
     <script>
       'use strict';
       (function() {
@@ -12,17 +12,17 @@
             .all([
               document.fonts.load('1em Lato'),
               document.fonts.load('1em Noto Serif'),
-            ]);
+            ])
             .then(function() {
-              document.documentElement.classList.remove('fonts-loading');
               document.documentElement.classList.add('fonts-active');
+              document.documentElement.classList.remove('fonts-loading');
               sessionStorage.fontsLoaded = true;
             })
             .catch(function(err) {
               // Debatable whether you want this
               console.error("Fonts could not be loaded ", err);
-              document.documentElement.classList.remove('fonts-loading');
               document.documentElement.classList.add('fonts-inactive');
+              document.documentElement.classList.remove('fonts-loading');
             });
         }
       })();

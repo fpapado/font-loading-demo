@@ -2,8 +2,8 @@
   "name": "loading-fonts",
   "version": "1.0.0",
   "scripts": {
-    "build": "cp -r demos dist",
-    "deploy": "cd dist && now -A ../now.json && now alias -A ../now.json",
+    "build": "rimraf dist && mkdir dist/ && cp -r demos/* dist/",
+    "deploy": "now ./dist -A ../now.json && now alias",
     "release": "npm run build && npm run deploy",
     "dev": "serve -o demos"
   },
@@ -11,6 +11,8 @@
   "author": "fpapado <fotis@futurice.com>",
   "license": "MIT",
   "devDependencies": {
+    "rimraf": "^2.6.2",
     "serve": "^6.5.2"
-  }
+  },
+  "dependencies": {}
 }
