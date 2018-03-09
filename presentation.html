@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width initial-scale=1 user-scalable=no" />
-    <title>Spectacle</title>
+    <title>Loading Fonts</title>
     <link href="https://fonts.googleapis.com/css?family=Lobster+Two:400,700" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700" rel="stylesheet" type="text/css">
     <link href="https://unpkg.com/normalize.css@7/normalize.css" rel="stylesheet" type="text/css">
@@ -42,34 +42,37 @@
 ---
 ## Maybe :)
 ---
-DEMO of Mitt Romney font loading problem
-DEMO of demo site
+#### The Mitt Romney Font Loading Problem
+![FOIT](/img/foit.jpg)
+Credits: Zach Leatherman, Tweet from James Muspratt
 ---
-### It is more important to understand the problem than the solution
----
-### It is more important to understand the problem than the solution
-(Never heard that one before)
+#### The Mitt Romney Font Loading Problem
+![COMPLETE](/img/complete.jpg)
+Credits: Zach Leatherman
 ---
 ## Problem 1:
 ## Flash of Invisible Text
 Browsers can block up to 3 seconds waiting for a webfont to load.
-They display invisible text whilest doing so.
+They display invisible text while doing so.  
 Hence, Flash of Invisible Text (FOIT).
 ---
-## Flash of Invisible Text
+### Another Demo
+DEMO Here
+---
+## Flash of Invisible Text (FOIT)
 - Behaviour has gone back and forth
 - You have the content, but are not displaying it
-- Ultimately, not just about performance and content, but also consistency
+- Not just about performance and content, but also consistency
 ---
 ## Flash of Unstyled Text (FOUT)
-Start showing the text as soon as it is available, switch to the webfont once it loads
+Start showing the text as soon as it is available, switch to the webfont once it loads  
 DEMO here
 ---
 ## Problem 2:
 ## Font loading starts late
 ---
 ### Problem 2: Late loading start
-Fonts only start loading after getting the html, parsing css, and encountering a DOM node
+Fonts only start loading after getting the html, parsing css, and encountering a DOM node that has content.
 This is later than we'd like.
 Also, a feature.
 ---
@@ -163,6 +166,8 @@ it might be unpredictable.
   }
 \`\`\`
 ---
+### DEMO
+---
 ### font-display
 https://font-display.glitch.me  
 Credits to Monica Dinculescu
@@ -170,7 +175,7 @@ Credits to Monica Dinculescu
 ## Our Goals: font-display
 - 🗹 Tune the loading strategy to load progressively
 - 🗶 Start loading the font early
-- 🗶 Minimise repainting/reflow
+- 🗶 Minimise repainting/reflow ('optional' helps)
 ---
 ## Further evaluating font-display
 - 🙂Declarative, simple to implement
@@ -231,8 +236,9 @@ Credits to Monica Dinculescu
 - Inline the loading script in your \`<head>\` to kick off loading early
 - Set styles to fallback by default
 - Set \`.fonts-loaded selector\` to use webfont
-- Once styles are loaded, add the \`.fonts-loades\` class
-- The browser will show the webfont almost immediately
+- Once fonts are loaded:
+  - Add the \`.fonts-loaded\` class to root
+  - The browser will show the webfont almost immediately
 ---
 ### Font Loading API + class
 \`\`\`html
@@ -276,6 +282,38 @@ Credits to Monica Dinculescu
         src: url('/fonts/noto-serif-v6-latin-700.woff2') format('woff2'),
           url('/fonts/noto-serif-v6-latin-700.woff') format('woff');
       }
+
+      /* FONT CLASSES */
+      /* Only display the fallback font stack while fonts are loading
+       * This prevents the browser from blocking, since there is no font
+       * for the node loading, as far as it can tell.
+       *
+       * Again, you can play with this and see what works for your case.
+       * Also note that you could just as well have selectors on tags or
+       * other classes, as you wish.
+       *
+       * You can simplify this process with your favourite CSS preprocessor
+       * */
+      .lato {
+        font-family: -apple-system, BlinkMacSystemFont, avenir next, avenir,
+        helvetica neue, helvetica, ubuntu, roboto, noto, segoe ui, arial, sans-serif;
+      }
+
+      .notoserif {
+        font-family: georgia, times, serif;
+      }
+
+      /* Once fonts are loaded, use the full font; the browser will switch to them
+       * instantly, saving you the FOIT!
+       */
+      .fonts-active .lato {
+        font-family: 'Lato', -apple-system, BlinkMacSystemFont, avenir next, avenir,
+        helvetica neue, helvetica, ubuntu, roboto, noto, segoe ui, arial, sans-serif;
+      }
+
+      .fonts-active .notoserif {
+        font-family: 'Noto Serif', georgia, times, serif;
+      }
     </style>
 
     <!-- <script> Your script here </script> -->
@@ -297,6 +335,8 @@ Credits to Monica Dinculescu
     </noscript>
 \`\`\`
 ---
+### DEMO
+---
 ### THIS SEEMS MANUAL AND TEDIOUS AND ERROR PRONE
 ---
 ### Yes
@@ -305,6 +345,7 @@ By the power of programming, automate:
 https://github.com/zachleat/postcss-foft-classes
 ---
 ## With great power
+- Good support https://caniuse.com/#search=font%20loading
 - Polyfill, \`FontFaceObserver\`
 - \`<noscript>\` tag
 - Repeat visit optimisation
@@ -314,22 +355,73 @@ https://github.com/zachleat/postcss-foft-classes
 - 🗹 Start loading the font early
 - 🗹 Minimise repainting/reflow (if you make it so)
 ---
-## Further evaluating link preload
+## Further evaluating Loading API + class
 - 🙂Well supported, good polyfill, graceful
+- 🙂Hooks for more granular strategies
+- 🙂Wel lunderstood, used by many sites
+  - Including slate.com now 😏
 - ☹️ Needs JS (with fallback)
 - More setup, as mentioned, but automatable.
 ---
-### Sources for demos
+### There you go!
+---
+### Really?
+---
+### Actually, kinda yes
+---
+### It is more important to understand the problem than the solution
+---
+### It is more important to understand the problem than the solution
+(Never heard that one before)
+---
+### Designing Experiences
+- These are the main, simple solutions
+- Measurable benefit already
+- Many other strategies build off these
+- You can use these strategies to tune the user experience
+---
+### Example: tuning reflow
+https://www.zachleat.com/web-fonts/demos/foft.html  
+https://www.zachleat.com/foitfout/  
+Credits to Zach Leatherman  
+
+An example solution:  
+- Load body/regular font first
+- Use synthesized bold/italics
+- Load those second
+---
+### Future topics
+- Prioritising content
+- Grouping repaints
+- Choosing fallback fonts
+- ???
+---
+### Recap: Goals
+- Tune the loading strategy to load progressively
+- Start loading the font early
+- Minimise repainting/reflow
+---
+### Recap: How To
+- Tune the loading strategy to load progressively
+  - font-display: swap
+  - Font Loading API + class
+- Start loading the font early
+  - link preload
+  - Font Loading API
+- Minimise repainting/reflow
+  - Font Loading API chain
+  - font-display: optional
 ---
 ### Thanks and references
 \`\`\`
 Zach Leatherman (@zachleat)
   Heavy research on font loading
   https://www.zachleat.com/web/comprehensive-webfonts/#font-display
+  https://www.zachleat.com/foitfout/
   https://github.com/zachleat/web-font-loading-recipes
 
 Monica Dinculescu (@notwaldorf)
-  Also plenty about fonts, especially font-display, reflow
+  Also plenty about fonts, especially font-display, reflow/repaint
   https://meowni.ca/font-style-matcher/
   https://font-display.glitch.me
 
