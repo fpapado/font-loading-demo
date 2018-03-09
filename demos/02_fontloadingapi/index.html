@@ -7,6 +7,8 @@
       'use strict';
       (function() {
         // Only act if the Font Loading API is supported
+        // NOTE: Polyfill here
+        // NOTE: Repeat visit optimisation
         if ('fonts' in document) {
           Promise
             .all([
@@ -22,11 +24,26 @@
               console.error("Fonts could not be loaded ", err);
               document.documentElement.classList.add('fonts-inactive');
             });
+        } else {
+          // If no Font Loading API, use browser behaviour
+          document.documentElement.classList.add('fonts-active');
         }
       })();
     </script>
-    <!-- Fallback to showing style if JS is off -->
-    <noscript></noscript>
+
+    <!-- Fallback to show webfonts if JS is off -->
+    <noscript>
+      <style>
+        .lato {
+          font-family: 'Lato', -apple-system, BlinkMacSystemFont, avenir next, avenir,
+            helvetica neue, helvetica, ubuntu, roboto, noto, segoe ui, arial, sans-serif;
+        }
+
+        .notoserif {
+          font-family: 'Noto Serif', georgia, times, serif;
+        }
+      </style>
+    </noscript>
   </head>
   <body class="measure-wide center notoserif f5 fw4 near-black bg-washed-yellow">
     <div class="ph3 pv5">
