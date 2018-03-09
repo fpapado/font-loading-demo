@@ -40,38 +40,6 @@
         src: url('/fonts/noto-serif-v6-latin-700.woff2') format('woff2'),
           url('/fonts/noto-serif-v6-latin-700.woff') format('woff');
       }
-
-      /* FONT CLASSES */
-      /* Only display the fallback font stack while fonts are loading
-       * This prevents the browser from blocking, since there is no font
-       * for the node loading, as far as it can tell.
-       *
-       * Again, you can play with this and see what works for your case.
-       * Also note that you could just as well have selectors on tags or
-       * other classes, as you wish.
-       *
-       * You can simplify this process with your favourite CSS preprocessor
-       * */
-      .lato {
-        font-family: -apple-system, BlinkMacSystemFont, avenir next, avenir,
-        helvetica neue, helvetica, ubuntu, roboto, noto, segoe ui, arial, sans-serif;
-      }
-
-      .notoserif {
-        font-family: georgia, times, serif;
-      }
-
-      /* Once fonts are loaded, use the full font; the browser will switch to them
-       * instantly, saving you the FOIT!
-       */
-      .fonts-active .lato {
-        font-family: 'Lato', -apple-system, BlinkMacSystemFont, avenir next, avenir,
-        helvetica neue, helvetica, ubuntu, roboto, noto, segoe ui, arial, sans-serif;
-      }
-
-      .fonts-active .notoserif {
-        font-family: 'Noto Serif', georgia, times, serif;
-      }
     </style>
     <script>
       'use strict';
@@ -91,7 +59,7 @@
               sessionStorage.fontsLoaded = true; //optimisation for repeat visits
             })
             .catch(function(err) {
-              // Debatable whether you want this
+              // Debatable whether you need this or not
               console.error("Fonts could not be loaded ", err);
               document.documentElement.classList.add('fonts-inactive');
             });
