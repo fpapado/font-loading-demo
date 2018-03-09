@@ -189,13 +189,128 @@ https://font-display.glitch.me
 - 🙂Declarative, simple to implement
 - ☹️ Not super supported
 - ☹️ Essentially limited to one font format
+- Must declare up front (that was the point, no?)
 ---
 ## Solution 2:
 ## Font Loading API + class
 ---
+### Font Loaing API
 \`\`\`js
-<link rel="preload" href="/fonts/lato-v14-latin.woff2" as="font" type="font/woff2" crossorigin>
+'use strict';
+
+(function() {
+  // Not shown: polyfill
+  // Only act if the Font Loading API is supported
+  if ('fonts' in document) {
+    Promise
+      .all([
+        document.fonts.load('700 1em Lato'),
+        document.fonts.load('1em Noto Serif'),
+      ])
+      .then(function() {
+        document.documentElement.classList.add('fonts-active');
+        sessionStorage.fontsLoaded = true;
+      })
+      .catch(function(err) {
+        // Debatable whether you want this
+        console.error("Fonts could not be loaded ", err);
+        document.documentElement.classList.add('fonts-inactive');
+      });
+  }
+})();
 \`\`\`
+---
+## Font Loading API + class
+- Inline the loading script in your \`<head>\` to kick off loading early
+- Set styles to fallback by default
+- Set \`.fonts-loaded selector\` to use webfont
+- Once styles are loaded, add the \`.fonts-loades\` class
+- The browser will show the webfont almost immediately
+---
+### Font Loading API + class
+\`\`\`html
+<html class="fonts-loading" lang="en">
+  <head>
+    <title>Font Loading</title>
+    <!-- Inline style tags for font-face  -->
+    <style>
+      /* lato-700 - latin */
+      @font-face {
+        font-family: 'Lato';
+        font-style: normal;
+        font-weight: 700;
+        src: url('/fonts/lato-v14-latin-700.woff2') format('woff2'),
+          url('/fonts/lato-v14-latin-700.woff') format('woff');
+      }
+
+      /* noto-serif-regular - latin */
+      @font-face {
+        font-family: 'Noto Serif';
+        font-style: normal;
+        font-weight: 400;
+        src: url('/fonts/noto-serif-v6-latin-regular.woff2') format('woff2'),
+          url('/fonts/noto-serif-v6-latin-regular.woff') format('woff');
+      }
+
+      /* noto-serif-italic - latin */
+      @font-face {
+        font-family: 'Noto Serif';
+        font-style: italic;
+        font-weight: 400;
+        src: url('/fonts/noto-serif-v6-latin-italic.woff2') format('woff2'),
+          url('/fonts/noto-serif-v6-latin-italic.woff') format('woff');
+      }
+
+      /* noto-serif-700 - latin */
+      @font-face {
+        font-family: 'Noto Serif';
+        font-style: normal;
+        font-weight: 700;
+        src: url('/fonts/noto-serif-v6-latin-700.woff2') format('woff2'),
+          url('/fonts/noto-serif-v6-latin-700.woff') format('woff');
+      }
+    </style>
+
+    <!-- <script> Your script here </script> -->
+
+    <link href="/css/02_styles.css" rel="stylesheet">
+
+    <!-- Fallback to show webfonts if JS is off -->
+    <noscript>
+      <style>
+        .lato {
+          font-family: 'Lato', -apple-system, BlinkMacSystemFont, avenir next, avenir,
+            helvetica neue, helvetica, ubuntu, roboto, noto, segoe ui, arial, sans-serif;
+        }
+
+        .notoserif {
+          font-family: 'Noto Serif', georgia, times, serif;
+        }
+      </style>
+    </noscript>
+\`\`\`
+---
+### THIS SEEMS MANUAL AND TEDIOUS AND ERROR PRONE
+---
+### Yes
+---
+By the power of programming, automate:
+https://github.com/zachleat/postcss-foft-classes
+---
+## With great power
+- Polyfill, \`FontFaceObserver\`
+- \`<noscript>\` tag
+- Repeat visit optimisation
+---
+## Our Goals: Font Loading API + class
+- 🗹  Tune the loading strategy to load progressively
+- 🗹 Start loading the font early
+- 🗹 Minimise repainting/reflow (if you make it so)
+---
+## Further evaluating link preload
+- 🙂Well supported, good polyfill, graceful
+- ☹️ Needs JS (with fallback)
+- More setup, as mentioned, but automatable.
 ---
 ### Sources for demos
 ---

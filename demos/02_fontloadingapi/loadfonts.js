@@ -1,9 +1,8 @@
 'use strict';
 
 (function() {
+  // Not shown: polyfill
   // Only act if the Font Loading API is supported
-  // TODO: FontFaceObserver
-  // TODO: localStorage
   if ('fonts' in document) {
     Promise
       .all([
