@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "scripts": {
     "clean": "rimraf dist && mkdir dist/",
-    "build-styles": "postcss demos/css/ --dir dist/css --use postcss-import",
+    "build-styles": "postcss ./css/01_styles.css --dir dist/css --use postcss-import --map && postcss ./css/02_styles.css --dir dist/css --use postcss-import --map && postcss ./css/03_styles.css --dir dist/css --use postcss-import --map",
     "build": "npm run clean && npm run build-styles && cp -r demos/* dist/",
     "deploy": "now ./dist -A ../now.json && now alias",
     "release": "npm run build && npm run deploy",
