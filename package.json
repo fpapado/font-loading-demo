@@ -4,7 +4,7 @@
   "scripts": {
     "clean": "rimraf dist && mkdir dist/",
     "build-styles": "postcss ./css/01_styles.css --dir dist/css --use postcss-import --map && postcss ./css/02_styles.css --dir dist/css --use postcss-import --map && postcss ./css/03_styles.css --dir dist/css --use postcss-import --map",
-    "build": "npm run clean && npm run build-styles && cp -r demos/* dist/ && cp -r img dist",
+    "build": "npm run clean && npm run build-styles && cp -r demos/* dist/ && cp -r img dist && cp presentation.html dist",
     "deploy": "now ./dist -A ../now.json && now alias",
     "release": "npm run build && npm run deploy",
     "dev": "npm run build && serve -o dist/"

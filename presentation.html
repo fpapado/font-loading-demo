@@ -56,9 +56,6 @@ Browsers can block up to 3 seconds waiting for a webfont to load.
 They display invisible text while doing so.  
 Hence, Flash of Invisible Text (FOIT).
 ---
-### Another Demo
-DEMO Here
----
 ## Flash of Invisible Text (FOIT)
 - Behaviour has gone back and forth
 - You have the content, but are not displaying it
@@ -66,13 +63,13 @@ DEMO Here
 ---
 ## Flash of Unstyled Text (FOUT)
 Start showing the text as soon as it is available, switch to the webfont once it loads  
-DEMO here
+DEMO
 ---
 ## Problem 2:
 ## Font loading starts late
 ---
 ### Problem 2: Late loading start
-Fonts only start loading after getting the html, parsing css, and encountering a DOM node that has content.
+Fonts only start loading after getting the html, parsing css, and encountering a DOM node that uses said font and has content.
 This is later than we'd like.
 Also, a feature.
 ---
@@ -358,7 +355,7 @@ https://github.com/zachleat/postcss-foft-classes
 ## Further evaluating Loading API + class
 - 🙂Well supported, good polyfill, graceful
 - 🙂Hooks for more granular strategies
-- 🙂Wel lunderstood, used by many sites
+- 🙂Well understood, used by many sites
   - Including slate.com now 😏
 - ☹️ Needs JS (with fallback)
 - More setup, as mentioned, but automatable.
