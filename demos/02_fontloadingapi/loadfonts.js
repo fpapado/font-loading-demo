@@ -1,6 +1,11 @@
 'use strict';
 
 (function() {
+  if (sessionStorage.fontsLoaded) {
+    document.documentElement.classList.add('fonts-active');
+    return;
+  }
+
   // Not shown: polyfill
   // Only act if the Font Loading API is supported
   if ('fonts' in document) {

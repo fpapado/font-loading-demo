@@ -164,12 +164,13 @@ it might be unpredictable.
 \`\`\`
 ---
 ### font-display
-https://font-display.glitch.me
+https://font-display.glitch.me  
+Credits to Monica Dinculescu
 ---
 ## Our Goals: font-display
 - 🗹 Tune the loading strategy to load progressively
 - 🗶 Start loading the font early
-- 🗶 Minimise repainting/reflow (Will only lightly talk about this)
+- 🗶 Minimise repainting/reflow
 ---
 ## Further evaluating font-display
 - 🙂Declarative, simple to implement
@@ -194,12 +195,18 @@ https://font-display.glitch.me
 ## Solution 2:
 ## Font Loading API + class
 ---
-### Font Loaing API
+### Font Loading API
 \`\`\`js
 'use strict';
 
 (function() {
-  // Not shown: polyfill
+  // Repeat View optimisation
+  if (sessionStorage.fontsLoaded) {
+    document.documentElement.classList.add('fonts-active');
+    return;
+  }
+
+  // Not shown: polyfill (more on that in a bit)
   // Only act if the Font Loading API is supported
   if ('fonts' in document) {
     Promise
@@ -314,7 +321,8 @@ https://github.com/zachleat/postcss-foft-classes
 ---
 ### Sources for demos
 ---
-### Thanks and learn more
+### Thanks and references
+\`\`\`
 Zach Leatherman (@zachleat)
   Heavy research on font loading
   https://www.zachleat.com/web/comprehensive-webfonts/#font-display
@@ -330,6 +338,7 @@ Bram Stein (@bram_stein)
   http://stateofwebtype.com/
   FontFaceObserver (polyfill for Font Loading API) developer
   Author of Webfont Handbook
+\`\`\`
 `}
           </Deck>
         );
