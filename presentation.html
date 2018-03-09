@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width initial-scale=1 user-scalable=no" />
+    <title>Spectacle</title>
+    <link href="https://fonts.googleapis.com/css?family=Lobster+Two:400,700" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700" rel="stylesheet" type="text/css">
+    <link href="https://unpkg.com/normalize.css@7/normalize.css" rel="stylesheet" type="text/css">
+    <style>.spectacle-content { overflow-y: auto }</style>
+</head>
+<body>
+    <div id="root"></div>
+    <script src="https://unpkg.com/prop-types@15/prop-types.js"></script>
+    <script src="https://unpkg.com/react@15/dist/react.js"></script>
+    <script src="https://unpkg.com/react-dom@15/dist/react-dom.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.js"></script>
+    <script src="https://unpkg.com/spectacle/dist/spectacle.js"></script>
+    <script src="https://unpkg.com/spectacle/lib/one-page.js"></script>
+    <script type="text/spectacle">
+      () => {
+        // Your JS Code goes here
+
+        return (
+          <Deck>
+{MarkdownSlides`
+## Loading Fonts without &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; your mind
+@f_papado
+---
+## Loading Fonts without *losing* your mind
+@f_papado
+---
+### In this talk:
+- Font loading problems you might have and be unaware of
+- Dual content and performance problem
+- Two simple strategies to mitigate and make consistent
+- Broadly, thinking about loading with intent
+---
+## You have a font problem
+---
+## Do I?
+---
+## Maybe :)
+---
+DEMO of Mitt Romney font loading problem
+DEMO of demo site
+---
+### It is more important to understand the problem than the solution
+---
+### It is more important to understand the problem than the solution
+(Never heard that one before)
+---
+## Problem 1:
+## Flash of Invisible Text
+Browsers can block up to 3 seconds waiting for a webfont to load.
+They display invisible text whilest doing so.
+Hence, Flash of Invisible Text (FOIT).
+---
+## Flash of Invisible Text
+- Behaviour has gone back and forth
+- You have the content, but are not displaying it
+- Ultimately, not just about performance and content, but also consistency
+---
+## Flash of Unstyled Text (FOUT)
+Start showing the text as soon as it is available, switch to the webfont once it loads
+DEMO here
+---
+## Problem 2:
+## Font loading starts late
+---
+### Problem 2: Late loading start
+Fonts only start loading after getting the html, parsing css, and encountering a DOM node
+This is later than we'd like.
+Also, a feature.
+---
+### Problem 2: Late loading start
+You can see this in the devtools
+---
+### Problem 3, the next level: Repainting / reflow
+When you load different fonts/weights, and don't have a strategy to synchronise or stage them, then
+it might be unpredictable.
+---
+## Our Goals are thus:
+- ☐ Tune the loading strategy to load progressively
+- ☐ Start loading the font early
+- ☐ Minimise repainting/reflow
+---
+## Solution 1: font-display
+---
+### font-display
+\`\`\`css
+  /* lato-700 - latin */
+  @font-face {
+    font-family: 'Lato';
+    font-style: normal;
+    font-weight: 700;
+    font-display: fallback; /* <--- This thing here */
+    src: url('/fonts/lato-v14-latin-700.woff2') format('woff2'),
+      url('/fonts/lato-v14-latin-700.woff') format('woff');
+  }
+\`\`\`
+---
+### font-display values
+- \`block\` (wait 3s, then load fallback if not loaded, or webfont whenever done)
+- \`swap\` (show fallback immediately, load webfont whenever done)
+- \`fallback\` (wait 100ms, then load fallback if not loaded, or webfont whenever done)
+- \`optional\` (show if loaded within 100ms, otherwise load fallback and skip webfont)
+- \`auto\` (pray)
+---
+### In action
+\`\`\`css
+  /* FONT FACE DECLARATIONS */
+  /* lato-700 - latin */
+  @font-face {
+    font-family: 'Lato';
+    font-style: normal;
+    font-weight: 700;
+    font-display: fallback;
+    src: url('/fonts/lato-v14-latin-700.woff2') format('woff2'),
+      url('/fonts/lato-v14-latin-700.woff') format('woff');
+  }
+
+  /* noto-serif-regular - latin */
+  @font-face {
+    font-family: 'Noto Serif';
+    font-style: normal;
+    font-weight: 400;
+    font-display: fallback;
+    src: url('/fonts/noto-serif-v6-latin-regular.woff2') format('woff2'),
+      url('/fonts/noto-serif-v6-latin-regular.woff') format('woff');
+  }
+
+  /* noto-serif-italic - latin */
+  @font-face {
+    font-family: 'Noto Serif';
+    font-style: italic;
+    font-weight: 400;
+    font-display: fallback;
+    src: url('/fonts/noto-serif-v6-latin-italic.woff2') format('woff2'),
+      url('/fonts/noto-serif-v6-latin-italic.woff') format('woff');
+  }
+
+  /* noto-serif-700 - latin */
+  @font-face {
+    font-family: 'Noto Serif';
+    font-style: normal;
+    font-weight: 700;
+    font-display: fallback;
+    src: url('/fonts/noto-serif-v6-latin-700.woff2') format('woff2'),
+      url('/fonts/noto-serif-v6-latin-700.woff') format('woff');
+  }
+
+  /* FONT CLASSES 
+   * These could very well be other selectors
+   * */
+  .lato {
+    font-family: 'Lato', -apple-system, BlinkMacSystemFont, avenir next, avenir,
+      helvetica neue, helvetica, ubuntu, roboto, noto, segoe ui, arial, sans-serif;
+  }
+
+  .notoserif {
+    font-family: 'Noto Serif', georgia, times, serif;
+  }
+\`\`\`
+---
+### font-display
+https://font-display.glitch.me
+---
+## Our Goals: font-display
+- 🗹 Tune the loading strategy to load progressively
+- 🗶 Start loading the font early
+- 🗶 Minimise repainting/reflow (Will only lightly talk about this)
+---
+## Further evaluating font-display
+- 🙂Declarative, simple to implement
+- ☹️ Not super supported
+---
+### Solution 1.5: link preload
+\`\`\`html
+<link rel="preload" href="/fonts/lato-v14-latin.woff2" as="font" type="font/woff2" crossorigin>
+\`\`\`
+---
+## Our Goals: link preload
+- 🗶 Tune the loading strategy to load progressively
+- 🗹 Start loading the font early
+- 🗶 Minimise repainting/reflow
+---
+## Further evaluating link preload
+- 🙂Declarative, simple to implement
+- ☹️ Not super supported
+- ☹️ Essentially limited to one font format
+---
+## Solution 2:
+## Font Loading API + class
+---
+\`\`\`js
+<link rel="preload" href="/fonts/lato-v14-latin.woff2" as="font" type="font/woff2" crossorigin>
+\`\`\`
+---
+### Sources for demos
+---
+### Thanks and learn more
+Zach Leatherman (@zachleat)
+  Heavy research on font loading
+  https://www.zachleat.com/web/comprehensive-webfonts/#font-display
+  https://github.com/zachleat/web-font-loading-recipes
+
+Monica Dinculescu (@notwaldorf)
+  Also plenty about fonts, especially font-display, reflow
+  https://meowni.ca/font-style-matcher/
+  https://font-display.glitch.me
+
+Bram Stein (@bram_stein)
+  Both about fonts and generally web type
+  http://stateofwebtype.com/
+  FontFaceObserver (polyfill for Font Loading API) developer
+  Author of Webfont Handbook
+`}
+          </Deck>
+        );
+      }
+    </script>
+</body>
+</html>
