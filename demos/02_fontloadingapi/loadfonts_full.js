@@ -1,6 +1,6 @@
 // NOTE: Use this inline in your <head>
 // NOTE: Do not forget to inline the @font-face declaration as <style> in <head>
-// Polyfilled version
+// Polyfilled version (FontFaceObserver has slightly different syntax)
 
 // Could lazy-load this for IE and Edge, at the expense of speed
 // Could skip this for IE and Edge; no early load, but they FOUT anyway
